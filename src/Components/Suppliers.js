@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,8 +8,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { IconButton } from "@mui/material";
+import TablePagination from "@mui/material/TablePagination";
+import { Button, IconButton } from "@mui/material";
 import { DeleteIcon, EditIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -16,7 +19,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 16,
   },
 }));
 
@@ -40,11 +43,31 @@ const rows = [
   createData("Eclair", 262, 16.0, 24, 6.0),
   createData("Cupcake", 305, 3.7, 67, 4.3),
   createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
 export default function Suppliers() {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const navigate = useNavigate();
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const displayedRows = rows.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
   return (
-    <div style={{ paddingTop: "5%", paddingLeft: "10%", paddingRight: "10%" }}>
+    <div style={{ paddingTop: "5%", paddingLeft: "13%", paddingRight: "13%" }}>
+      <h2>Tabla de Proveedores</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -56,18 +79,22 @@ export default function Suppliers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {displayedRows.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
                 <StyledTableCell>{row.calories}</StyledTableCell>
                 <StyledTableCell>{row.fat}</StyledTableCell>
-                <StyledTableCell>
+                <StyledTableCell style={{ width: "200px" }}>
                   <IconButton color="primary" aria-label="edit">
                     <EditIcon />
                   </IconButton>
-                  <IconButton color="secondary" aria-label="delete">
+                  <IconButton
+                    color="secondary"
+                    aria-label="delete"
+                    style={{ marginLeft: "80px" }}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </StyledTableCell>
@@ -75,7 +102,26 @@ export default function Suppliers() {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
+      <Button
+        className="button"
+        variant="outlined"
+        style={{ marginTop: "30px", marginLeft: "1200px" }}
+        onClick={() => {
+          navigate("/createsuppliers");
+        }}
+      >
+        Register
+      </Button>
     </div>
   );
 }

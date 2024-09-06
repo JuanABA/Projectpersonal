@@ -6,6 +6,7 @@ import Clients from "./Components/Clients";
 import Shopping from "./Components/Shopping";
 import Sales from "./Components/Sales";
 import Component from "./Components/Suppliers";
+import CreateSupplier from "./Components/CreateSupplier";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/suppliers" element={<Component />} />
+            <Route path="/createsuppliers" element={<CreateSupplier />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/shopping" element={<Shopping />} />
             <Route path="/sales" element={<Sales />} />
