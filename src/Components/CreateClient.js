@@ -9,7 +9,7 @@ import {
   Container,
 } from "@mui/material"; // Use Grid2 instead of Grid
 
-const CreateSupplier = () => {
+const CreateClient = () => {
   const {
     register,
     handleSubmit,
@@ -31,7 +31,7 @@ const CreateSupplier = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Registrar Proveedor
+          Registrar cliente
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid2 container spacing={2}>
@@ -98,4 +98,4 @@ const CreateSupplier = () => {
   );
 };
 
-export default CreateSupplier;
+export default CreateClient;

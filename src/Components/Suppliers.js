@@ -9,9 +9,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import { Button, IconButton } from "@mui/material";
+import { Button, DialogContentText, IconButton } from "@mui/material";
 import { DeleteIcon, EditIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+
+import EditSupplier from "./EditSupplier";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,22 +41,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(nombre, telefono, direccion, correo) {
+  return { nombre, telefono, direccion, correo };
 }
 
 const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Proveedor 1", 3023223090, "Envigado", "proveedor@gmail.com"),
 ];
 
 export default function Suppliers() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = useState(false); // For opening and closing modal
+  const [editData, setEditData] = useState(null); // Store the current row data for editing
+  const [openDelete, setOpenDelete] = useState(false);
+  // const [rowToDelete, setRowToDelete] = useState(-1);
   const navigate = useNavigate();
 
   const handleChangePage = (event, newPage) => {
@@ -65,6 +72,18 @@ export default function Suppliers() {
     page * rowsPerPage + rowsPerPage
   );
 
+  // Open modal and set row data
+  const handleEditClick = (row) => {
+    setEditData(row); // Set data for the row to edit
+    setOpen(true); // Open the modal
+  };
+
+  // Close modal
+  const handleClose = () => {
+    setOpen(false);
+    setEditData(null);
+  };
+
   return (
     <div style={{ paddingTop: "5%", paddingLeft: "13%", paddingRight: "13%" }}>
       <h2>Tabla de Proveedores</h2>
@@ -75,19 +94,25 @@ export default function Suppliers() {
               <StyledTableCell>Nombre</StyledTableCell>
               <StyledTableCell>Telefono</StyledTableCell>
               <StyledTableCell>Direccion</StyledTableCell>
+              <StyledTableCell>Correo</StyledTableCell>
               <StyledTableCell>Acciones</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {displayedRows.map((row) => (
-              <StyledTableRow key={row.name}>
+              <StyledTableRow key={row.nombre}>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {row.nombre}
                 </StyledTableCell>
-                <StyledTableCell>{row.calories}</StyledTableCell>
-                <StyledTableCell>{row.fat}</StyledTableCell>
+                <StyledTableCell>{row.telefono}</StyledTableCell>
+                <StyledTableCell>{row.direccion}</StyledTableCell>
+                <StyledTableCell>{row.correo}</StyledTableCell>
                 <StyledTableCell style={{ width: "200px" }}>
-                  <IconButton color="primary" aria-label="edit">
+                  <IconButton
+                    color="primary"
+                    onClick={() => handleEditClick(row)}
+                    aria-label="edit"
+                  >
                     <EditIcon />
                   </IconButton>
                   <IconButton
@@ -95,7 +120,12 @@ export default function Suppliers() {
                     aria-label="delete"
                     style={{ marginLeft: "80px" }}
                   >
-                    <DeleteIcon />
+                    <DeleteIcon
+                      onClick={() => {
+                        setOpenDelete(true);
+                        // setRowToDelete(params.row.id);
+                      }}
+                    />
                   </IconButton>
                 </StyledTableCell>
               </StyledTableRow>
@@ -112,6 +142,47 @@ export default function Suppliers() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      {/* Delete Supplier */}
+      <Dialog
+        open={openDelete}
+        keepMounted
+        onClose={() => setOpen(false)}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            ¿Estas seguro de eliminar este proveedor?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDelete(false)}>No</Button>
+          <Button
+            onClick={() => {
+              // const response = await DeleteUser(rowToDelete);
+              // if (response.message) {
+              //   setOpen(false);
+              //   getUsers();
+              // }
+              setOpenDelete(false);
+            }}
+          >
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Edit Modal */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Editar proveedor</DialogTitle>
+        <DialogContent>
+          <EditSupplier data={editData} handleClose={handleClose} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Button
         className="button"
         variant="outlined"
