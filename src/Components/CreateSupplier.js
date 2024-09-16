@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import {
   TextField,
   Button,
-  Grid2,
   Box,
   Typography,
   Container,
+  Grid,
 } from "@mui/material"; // Use Grid2 instead of Grid
 
 const CreateSupplier = () => {
@@ -34,10 +34,10 @@ const CreateSupplier = () => {
           Registrar Proveedor
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
-          <Grid2 container spacing={2}>
+          <Grid container spacing={2}>
             {" "}
             {/* Use Grid2 here */}
-            <Grid2 item xs={12}>
+            <Grid item xs={24} sm={6}>
               {" "}
               {/* Use Grid2 here */}
               <TextField
@@ -48,8 +48,8 @@ const CreateSupplier = () => {
                 error={!!errors.nombre}
                 helperText={errors.nombre ? errors.nombre.message : ""}
               />
-            </Grid2>
-            <Grid2 item xs={12}>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 id="telefono"
@@ -58,8 +58,8 @@ const CreateSupplier = () => {
                 error={!!errors.telefono}
                 helperText={errors.telefono ? errors.telefono.message : ""}
               />
-            </Grid2>
-            <Grid2 item xs={12}>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 id="direccion"
@@ -70,8 +70,8 @@ const CreateSupplier = () => {
                 error={!!errors.direccion}
                 helperText={errors.direccion ? errors.direccion.message : ""}
               />
-            </Grid2>
-            <Grid2 item xs={12}>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 id="correo"
@@ -82,8 +82,8 @@ const CreateSupplier = () => {
                 error={!!errors.correo}
                 helperText={errors.correo ? errors.correo.message : ""}
               />
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
           <Button
             type="submit"
             fullWidth
