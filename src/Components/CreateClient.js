@@ -9,7 +9,7 @@ import {
   Grid,
 } from "@mui/material"; // Use Grid2 instead of Grid
 
-const CreateSupplier = () => {
+const CreateClient = () => {
   const {
     register,
     handleSubmit,
@@ -31,13 +31,13 @@ const CreateSupplier = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Registrar Proveedor
+          Registrar cliente
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             {" "}
             {/* Use Grid2 here */}
-            <Grid item xs={24} sm={6}>
+            <Grid item xs={12} sm={6}>
               {" "}
               {/* Use Grid2 here */}
               <TextField
@@ -59,7 +59,7 @@ const CreateSupplier = () => {
                 helperText={errors.telefono ? errors.telefono.message : ""}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 id="direccion"
@@ -71,7 +71,7 @@ const CreateSupplier = () => {
                 helperText={errors.direccion ? errors.direccion.message : ""}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 id="correo"
@@ -98,4 +98,4 @@ const CreateSupplier = () => {
   );
 };
 
-export default CreateSupplier;
+export default CreateClient;
